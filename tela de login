@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #06060a;
+    }
+    .login-container {
+      width: 400px;
+      background-color: #3d3f45;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .login-container h1 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 45px;
+    }
+    .login-container label {
+      color: #fff;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #fff;
+      border-radius: 15px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .login-container button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 20px;
+      padding: 10px;
+      background-color: #fff;
+      color: #3d3f45;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    <label for="USUARIO">USUÁRIO:</label>
+    <input type="text" id="USUARIO" placeholder="USUÁRIO">
+    <label for="SENHA">SENHA:</label>
+    <input type="password" id="SENHA" placeholder="SENHA" onkeydown="checkEnter(event)">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script>
+    function checkEnter(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        login();
+      }
+    }
+
+    function login() {
+      var usuario = document.getElementById("USUARIO").value;
+      var senha = document.getElementById("SENHA").value;
+
+     
+      var usuarioCorreto = "usuario";
+      var senhaCorreta = "3ano";
+
+      if (usuario === usuarioCorreto && senha === senhaCorreta) {
+        alert("Login bem-sucedido entre meu parceiro!"); 
+      window.location.href = "galeria.html";
+      } else {
+        alert("Usuário ou senha erradão parceiro."); 
+     }
+    }
+  </script>
+</body>
+</html>
