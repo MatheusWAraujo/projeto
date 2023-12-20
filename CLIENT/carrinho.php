@@ -65,11 +65,19 @@
             </div>
 
             <div class="right-side">
-                <a class="titler" id="card-name"> Carrinho - <?php echo count($_SESSION['CARRINHO']) ?> </a>
+                <a class="titler" id="card-name"> Carrinho - <?php
+                    $quantidade = 0;
+
+                    foreach ($_SESSION['CARRINHO'] as $id) {
+                        $quantidade += $id;
+                    };
+
+                    echo $quantidade;
+                 ?> </a>
                 
                 <div class="itens-frame">
                     <?php
-                        if (count($_SESSION['CARRINHO']) > 0){
+                        if (sizeof($_SESSION['CARRINHO']) > 0){
                             include "../UTILS/db_connection.php";
 
                             $sql = "SELECT * FROM produto";
@@ -77,14 +85,9 @@
 
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
+                                    
                                     if (isset($_SESSION['CARRINHO'][$row["Id"]])){
-                                        $quantidade = 0;
-
-                                        foreach ($_SESSION['CARRINHO'] as $id) {
-                                            if ($id == $row["Id"]){
-                                                $quantidade += 1;
-                                            }
-                                        };
+                                        $quantidade = $_SESSION['CARRINHO'][$row['Id']];
 
                                         echo "<div class='product-item'>";
                                         echo "<div class='frame-product'>";
