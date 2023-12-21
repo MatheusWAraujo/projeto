@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2023 at 05:19 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Tempo de geração: 21/12/2023 às 10:09
+-- Versão do servidor: 10.4.28-MariaDB
+-- Versão do PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,36 +18,40 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `loja`
+-- Banco de dados: `loja`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `compras`
+-- Estrutura para tabela `compras`
 --
 
 CREATE TABLE `compras` (
   `Id` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Paga` tinyint(1) NOT NULL,
-  `Entregue` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `itemcompra`
---
-
-CREATE TABLE `itemcompra` (
+  `Entregue` tinyint(1) NOT NULL,
+  `id-user` int(11) NOT NULL,
   `quantidade` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pessoa`
+-- Estrutura para tabela `itemcompras`
+--
+
+CREATE TABLE `itemcompras` (
+  `Quantidade` int(100) NOT NULL,
+  `IdProduto` int(100) NOT NULL,
+  `IdCompra` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `pessoa`
 --
 
 CREATE TABLE `pessoa` (
@@ -60,10 +64,20 @@ CREATE TABLE `pessoa` (
   `Numero` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `pessoa`
+--
+
+INSERT INTO `pessoa` (`Id`, `Nome`, `Estado`, `Cidade`, `Bairro`, `Logradouro`, `Numero`) VALUES
+(0, 'ROOT', 'ROOT', 'ROOT', 'ROOT', 'ROOT', 'ROOT'),
+(1, 'Vitor', 'Bahia', 'Rio de Janeiro', 'Mutum', 'De baixo', '43'),
+(2, 'ca', 'ca', 'ca', 'ca', 'ca', '12'),
+(3, 'c', 'c', 'c', 'c', 'c', '12');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produto`
+-- Estrutura para tabela `produto`
 --
 
 CREATE TABLE `produto` (
@@ -71,13 +85,25 @@ CREATE TABLE `produto` (
   `Nome` varchar(100) NOT NULL,
   `Preco` varchar(10000) NOT NULL,
   `Imagem` varchar(100) NOT NULL,
-  `Categoria` varchar(100) NOT NULL
+  `Categoria` varchar(100) NOT NULL,
+  `Estrelas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `produto`
+--
+
+INSERT INTO `produto` (`Id`, `Nome`, `Preco`, `Imagem`, `Categoria`, `Estrelas`) VALUES
+(1, 'Lanterna Tática SD 2.500', 'R$ 59,00', '../UPLOADS/Lanternas/1.png', 'Lanternas', 4),
+(2, 'Lanterna de Mão ultrapix', 'R$ 30,00', '../UPLOADS/Lanternas/2.png', 'Lanternas', 2),
+(3, 'Barraca Camping Montana', 'R$ 349,99', '../UPLOADS/Barracas/3.png', 'Barracas', 3),
+(4, 'Cordas LI p6', 'R$ 25,99', '../UPLOADS/Cordas/6.png', 'Cordas', 5),
+(6, 'Cantil Verde 250ml', 'R$ 15,99', '../UPLOADS/Cantil/8.png', 'Cantil', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estrutura para tabela `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -88,27 +114,37 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Despejando dados para a tabela `usuario`
+--
+
+INSERT INTO `usuario` (`Id`, `Email`, `Senha`, `Papel`) VALUES
+(0, 'root', 'root', 'ADM'),
+(1, 'vitin@gmail.com', 'abcdefg', 'USER'),
+(2, '1234', '123456', 'USER'),
+(3, 'laz', '123456', 'USER');
+
+--
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `pessoa`
+-- Índices de tabela `pessoa`
 --
 ALTER TABLE `pessoa`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `usuario`
+-- Índices de tabela `usuario`
 --
 ALTER TABLE `usuario`
   ADD KEY `fk_pessoa_usuario` (`Id`);
 
 --
--- Constraints for dumped tables
+-- Restrições para tabelas despejadas
 --
 
 --
--- Constraints for table `usuario`
+-- Restrições para tabelas `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `fk_pessoa_usuario` FOREIGN KEY (`Id`) REFERENCES `pessoa` (`Id`);
