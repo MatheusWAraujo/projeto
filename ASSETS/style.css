@@ -1,0 +1,339 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: 'Inter';
+    list-style: none;
+    text-decoration: none;
+    user-select: none;
+}
+
+header {
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 2%;
+    background-color: #523427;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box > form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    outline: none;
+}
+
+.input-search {
+    width: 30rem;
+    height: 3rem;
+    padding: 10px;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: medium;
+    color: #7E7E7E;
+
+    outline: none;
+    border: none;
+}
+
+.input-submit {
+    width: 30px;
+    height: 30px;
+    background-image: url(imgs/SearchIcon.png);
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    margin-right: 10px;
+
+}
+
+.category {
+    display: flex;
+    align-items: center;
+}
+
+.category-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    height: 3rem;
+    margin-right: 2rem;
+    border-radius: 7px;
+    font-weight: 600;
+    font-size: medium;
+    color: #666666;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+.category-button > img {
+    position: relative;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.categories {
+    width: 8rem;
+    background-color: #F0F0F0;
+    position: absolute;
+    list-style: none;
+    top: 73px;
+    display: none;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.categories > li {
+    font-weight: 600;
+    font-size: medium;
+    padding: 10px;
+    color: #666666;
+    cursor: pointer;
+}
+
+.category-button:hover + .categories{
+    display: block;
+}
+
+.categories:hover {
+    display: block;
+}
+
+.categories > li:hover {
+    background-color: rgb(212, 212, 212);
+}
+
+.category:hover .triangule,
+.category-button:hover .triangule,
+.categories:hover .triangule {
+    transform: rotate(180deg);
+}
+
+.icon-prompt {
+    display: none;
+    padding: 10px;
+}
+
+.container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 190px;
+}
+
+.produtos-frame {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+
+.produtos {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 57.5rem;
+    padding: 20px;
+}
+
+.produto {
+    position: relative;
+    display: flex;
+    width: 200px;
+    height: 200px;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: white;
+    border: 3px solid #D9D9D9;
+    margin: 10px;
+    margin-bottom: 7rem;
+}
+
+.estrelas {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    padding-top: 25px;
+    gap: 10px;
+    height: 25px;
+    box-sizing: border-box;
+    z-index: 5;
+}
+
+.produto-img {
+    display: flex;
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    top: 20%;
+}
+
+.produto-img > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.produto-nome {
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #666666;
+    z-index: 6;
+    top: 103%;
+    user-select: text;
+    border: none;
+    text-decoration: none;
+    user-select: none;
+}
+
+.produto-preco {
+    width: 200px;
+    display: flex;
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #00B912;
+    top: 128%;
+}
+
+.produto:hover,
+.produto-img:hover + .produto,
+.produto-nome:hover + .produto,
+.produto-preco:hover + .produto,
+.estrelas:hover + .produto,
+.estrelas > img:hover + .produto,
+.produto-img > img:hover + .produto {
+    transition: transform 0.05s ease;
+    border: 3px solid #ffa704;
+    transform: scale(1.05);
+}
+
+.categoria-name {
+    display: flex;
+    position: absolute;
+    z-index: 9;
+    color: #666666;
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+
+
+.triangule2 {
+    display: flex;
+    width: 15px;
+    height: 15px;
+}
+
+.filter-button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10rem;
+    height: 3rem;
+    margin-right: 2rem;
+    border-radius: 7px;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #666666;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+.filter-button > img {
+    position: relative;
+    display: inline-block;
+    margin-left: 50px;
+}
+
+
+.filters {
+    width: 10rem;
+    background-color: #F0F0F0;
+    position: absolute;
+    list-style: none;
+    text-decoration: none;
+    top: 195px;
+    display: none;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.filters > li {
+    font-weight: 600;
+    font-size: medium;
+    padding: 10px;
+    color: #666666;
+    cursor: pointer;
+    text-decoration: none;
+    list-style: none;
+}
+
+.section-a {
+    display: flex;
+    text-emphasis-style: none;
+    text-emphasis-color: none;
+    text-decoration: none;
+    list-style: none;
+    color: #666666;
+}
+
+.filter-button:hover + .filters{
+    display: block;
+}
+
+.filters:hover {
+    display: block;
+}
+
+.filters > li:hover {
+    background-color: rgb(212, 212, 212);
+}
+
+.filter:hover .triangule2,
+.filter-button:hover .triangule2,
+.filters:hover .triangule2 {
+    transform: rotate(180deg);
+}
+
+.no-results {
+    height: 35vh;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #666666;
+}
+
+.content-aproved {
+    width: 100vw;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

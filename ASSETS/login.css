@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: 'Inter';
+    list-style: none;
+    text-decoration: none;
+    user-select: none;
+}
+
+.main-content {
+    width: 100%;
+    height: 85vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-img {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-img > img {
+    width: 40rem;
+    height: 35rem;
+}
+
+.right-login {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.096);
+}
+
+.input {
+    width: 23vw;
+    height: 2.5rem;
+    background-color: #E9E9E9;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: large;
+    font-weight: 600;
+    color: #343434;
+    margin-top: 5px;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.submit {
+    position: relative;
+    color: white;
+    background-color: #349D3E;
+    font-size: 2rem;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 2rem;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 10px;
+}
+
+.LoginText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #343434;
+    font-size: 2.5rem;
+    font-weight: 600;
+    padding: 10px;
+    margin-bottom: 1rem;
+}
+
+.text-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #343434;
+}
+
+.alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #343434;
+}
+
+.link {
+    margin-left: 0.3rem;
+    text-decoration: underline;
+    color: #349D3E;
+}
+
+.erro {
+    margin-top: 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: #D91010;
+    font-weight: bold;
+}
