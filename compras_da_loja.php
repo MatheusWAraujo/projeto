@@ -62,7 +62,6 @@ if (!$result) {
     <table border="1">
         <tr>
             <th>ID</th>
-            <th>Produto</th>
             <th>Data</th>
             <th>Paga</th>
             <th>Entregue</th>
@@ -73,7 +72,6 @@ if (!$result) {
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>{$row['Id']}</td>";
-            echo "<td>{$row['Produto']}</td>";
             echo "<td>{$row['Data']}</td>";
             echo "<td>" . ($row['Paga'] == 1 ? 'Paga' : 'Não Paga') . "</td>";
             echo "<td>" . ($row['Entregue'] == 1 ? 'Entregue' : 'Não Entregue') . "</td>";
