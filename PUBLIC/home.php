@@ -1,38 +1,3 @@
-<?php 
-    include ("../UTILS/session_guest.php");
-
-    if (!isset($_SESSION['CARRINHO'])) {
-        $_SESSION['CARRINHO'] = array();
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        include("../UTILS/db_connection.php");
-
-        $usrSQL = "SELECT * FROM produto";
-        $result = $connection->query($usrSQL);
-
-        if ($result) {
-            if ($result->num_rows < 1) {
-                $connection->close();
-                exit;
-
-            } else {
-                while ($row = $result->fetch_assoc()) {
-                    if ($row["Nome"] == $_POST['nome']) {
-                        $_SESSION['CARRINHO'][$row['Id']] = $_SESSION['CARRINHO'][$row['Id']] + 1;
-                        echo json_encode($row['Id']);
-                        $connection->close();
-                        exit;
-                    }
-                }
-            }
-        }
-
-        echo json_encode($row['Id']);
-        $connection->close();
-        exit;
-    }
-?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
