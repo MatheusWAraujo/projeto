@@ -1,47 +1,53 @@
 <?php
     if (!session_id()) {
         session_start();
-    };
+    }
+
+    if (!isset($_SESSION['CARRINHO'])) {
+        header('Location: ../PUBLIC/carrinho.php');
+    }
+
+    if (sizeof($_SESSION['CARRINHO']) < 1){
+        header('Location: ../PUBLIC/carrinho.php');
+    }
 
     if (!isset($_SESSION['PAPEL'])) {
         $_SESSION['PAPEL'] = "GUEST";
     }
 
-    //conexão do banco de dados gayzinho
+    if ($_SESSION['PAPEL'] == "GUEST") {
+        header('Location: ../PUBLIC/login.php');
+    }
 
-    $host = 'localhost'; // endereço do servidor do banco de dados
-    $dbname = 'loja'; // nome do banco de dados
-    $username = 'ROOT'; // nome de usuário do banco de dados
-    $password = 'ROOT'; // senha do banco de dados
-    
-    $conn = new mysqli($host, $username, $password, $dbname);
-    
-    if ($conn->connect_error) {
-        die("Erro na conexão com o banco de dados: " . $conn->connect_error);
-    } 
-    //fim da conexão 
-    
-        $_SESSION['CARRINHO'] = []; //trocar a lista pra porra de sessão de carrinho------
-        $lista = [1,1,3,6];
-        $valor = 0;
-    
-       
-        foreach ($lista as $id) {
-            $sql = "SELECT Preco FROM produto WHERE id = $id";
-            $result = $conn->query($sql);
-        
-            if ($result && $result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $preco = $row["Preco"];
-                // Remove o símbolo 'R$' e qualquer outro caractere que não seja numérico não tira essa porra meu irmão
-                $precoNumerico = intval(preg_replace("/[^-0-9\.]/", "", $preco));
-        
-                $valor += $precoNumerico;
-            } else {
-                echo "Nenhum resultado encontrado para o ID: $id <br>";
+    if (!isset($_SESSION['EMAIL'])) {
+        header('Location: ../PUBLIC/login.php');
+    }
+
+    include ('../UTILS/db_connection.php');
+
+    $valor = 0;
+
+    $sql = "SELECT * FROM produto";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            
+            if (isset($_SESSION['CARRINHO'][$row["Id"]])){
+                $quantidade = $_SESSION['CARRINHO'][$row['Id']];
+
+                $preco = $row['Preco'];
+                $preco = str_replace('R$ ', '', $preco);
+                $preco = str_replace(',', '.', $preco);
+
+                $valor += ($preco * $quantidade);
             }
         }
-        $conn->close();
+    }
+
+    $valor = 'R$ ' . number_format($valor, 2, ',', '.');
+
+    $connection->close();
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +59,7 @@
     <link rel="stylesheet" type="text/css" href="../ASSETS/style.css">
     <link rel="stylesheet" type="text/css" href="../ASSETS/rodape.css">
     <link rel="stylesheet" type="text/css" href="../ASSETS/boxpag.css">
-    <title> Outdoor - Finalizando Pagamento </title>
+    <title>Outdoor - Pagamento </title>
 </head>
 
 <body>
@@ -62,7 +68,7 @@
 
         <div class="search-box">
             <div class="category">
-                <button class="category-button"> Categorias <img class="triangule" src="../ASSETS/imgs/triangule.png"> </button>
+                <button class="category-button">Categorias <img class="triangule" src="../ASSETS/imgs/triangule.png"></button>
 
                 <ul class="categories" id="">
                     <li><a class="section-a" href="../PUBLIC/pesquisa.php?category=Roupas%20Impermeáveis">Roupas Impermeáveis</a></li>
@@ -84,75 +90,73 @@
         </div>
 
         <div class="icons">
-            <a href="#" class="icon-prompt" id="productCreator"> <img src="../ASSETS/imgs/Icons/Lapis.png"></a>
+            <a href="#" class="icon-prompt" id="productCreator"><img src="../ASSETS/imgs/Icons/Lapis.png"></a>
 
-            <a href="#" class="icon-prompt" id="userbutton"> <img src="../ASSETS/imgs/Icons/user.png"> </a>
+            <a href="#" class="icon-prompt" id="userbutton"><img src="../ASSETS/imgs/Icons/user.png"></a>
 
-            <a href="../CLIENT/carrinho.php" class="icon-prompt" id="carrinho"> <img src="../ASSETS/imgs/Icons/Carrinho.png"></a>
+            <a href="../PUBLIC/carrinho.php" class="icon-prompt" id="carrinho"><img src="../ASSETS/imgs/Icons/Carrinho.png"></a>
 
-            <a href="../CLIENT/logout.php" class="icon-prompt" id="logout"> <img src="../ASSETS/imgs/Icons/Sair.png"> </a>
+            <a href="../CLIENT/logout.php" class="icon-prompt" id="logout"><img src="../ASSETS/imgs/Icons/Sair.png"></a>
         </div>
     </header>
 
     <div class="content-account">
         <div class="rectangle">
             <div class="up-side">
-
-            <?php
-            $valor = number_format($valor / 100, 2, ',', '.'); 
-            echo "<a>Valor : $valor R$</a>";
-            ?>
+                <?php
+                    echo "<a class='valor'> Valor: $valor</a>";
+                ?>
             </div>
 
             <div class="down-side">
-                <h1>Escolha um método de pagamento:</h1>      
+                <h1>Escolha um método de pagamento:</h1>
                 <div class="content">
-              <form action="processa_pagamento.php" method="POST">  
-   <input type="radio" class="radio-button" name="met-pagamento"></input>
-   <label for="pix">PIX</label>
+                    <form action="processa_pagamento.php" method="POST">
+                        <input type="radio" class="radio-button" name="met-pagamento" value="1">
+                        <label for="pix">Pix</label>
 
-   <input type="radio" class="radio-button" name="met-pagamento"></input>
-   <label for="cartao">Cartão de Crédito</label>
+                        <input type="radio" class="radio-button" name="met-pagamento" value="2">
+                        <label for="cartao">Cartão de Crédito</label>
 
-   <input type="radio" class="radio-button" name="met-pagamento"></input>
-   <label for="dinheiro">Dinheiro</label>
-</div>
-<button type="submit" id="buy-button">PAGAR</button>
-    </form>
+                        <input type="radio" class="radio-button" name="met-pagamento" value="3">
+                        <label for="dinheiro">Dinheiro</label>
+                
+                        <button type="submit" id="buy-button">PAGAR</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
     <footer>
         <div class="rodape">
             <div class="coluna">
                 <div class="Titulo"> Atendimento </div>
                 <ul class="coluna-list">
-                    <li> <img src="../ASSETS/imgs/Rodape/Telefone.png"> <a>(22) 99123456</a> </li>
-                    <li> <img src="../ASSETS/imgs/Rodape/Email.png"> <a> outdoorbrazil@com.br </a> </li>
+                    <li><img src="../ASSETS/imgs/Rodape/Telefone.png"><a>(22) 99123456</a></li>
+                    <li><img src="../ASSETS/imgs/Rodape/Email.png"><a>outdoorbrazil@com.br</a></li>
                 </ul>
             </div>
 
             <div class="coluna">
                 <div class="Titulo"> Quem somos? </div>
-                <a> Nós da Outdoor Camping Brasil, somos uma
-                    empresa <br> com objetivo de oferecer produtos
-                    para aventureiros<br> outdoor.</a>
+                <a>Nós da Outdoor Camping Brasil, somos uma empresa <br> com objetivo de oferecer produtos para aventureiros<br> outdoor.</a>
             </div>
 
             <div class="coluna">
                 <div class="Titulo"> Redes Sociais </div>
                 <ul class="coluna-list">
-                    <li> <img src="../ASSETS/imgs/Rodape/insta.png"> <a>@outdoorstore.br</a> </li>
-                    <li> <img src="../ASSETS/imgs/Rodape/face.png"> <a> outdoorcampbrasil </a> </li>
+                    <li><img src="../ASSETS/imgs/Rodape/insta.png"><a>@outdoorstore.br</a></li>
+                    <li><img src="../ASSETS/imgs/Rodape/face.png"><a>outdoorcampbrasil</a></li>
                 </ul>
             </div>
 
             <div class="coluna">
                 <div class="Titulo"> Formas de pagamento </div>
                 <ul class="pagamento-list">
-                    <li> <img src="../ASSETS/imgs/Rodape/pix.png"> </li>
-                    <li> <img src="../ASSETS/imgs/Rodape/nu.png"></li>
-                    <li> <img src="../ASSETS/imgs/Rodape/santa.png"></li>
+                    <li><img src="../ASSETS/imgs/Rodape/pix.png"></li>
+                    <li><img src="../ASSETS/imgs/Rodape/nu.png"></li>
+                    <li><img src="../ASSETS/imgs/Rodape/santa.png"></li>
                 </ul>
             </div>
         </div>
@@ -175,7 +179,7 @@
 
         } else if (papel == "USER") {
             $("#userbutton").attr("href", "../CLIENT/minha_conta.php");
-            
+
             $("#userbutton").show();
             $("#logout").show();
             $("#productCreator").hide();
@@ -187,27 +191,19 @@
             $("#logout").show();
             $("#productCreator").show();
         };
-
-
         
-        document.getElementById("buy-button").addEventListener("click", function(event) {
-            var radios = document.getElementsByName("met-pagamento");
+        $("#buy-button").click(function(event) {
             var selected = false;
 
-            for (var i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    selected = true;
-                    break;
-                }
-            }
+            if ($("input[name='met-pagamento']:checked").length > 0) {
+                selected = true;
+            };
 
             if (!selected) {
-                event.preventDefault(); // Impedindo o envio do formulário
+                event.preventDefault();
                 alert("Selecione um método de pagamento!");
             }
         });
     </script>
 </body>
-
-
-<!--TO-DO: Perfil do usuário, pode ver histórico de compras, alterar senha e sla caralho
+</html>
