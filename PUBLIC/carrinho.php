@@ -209,35 +209,5 @@
 
     </script>
 
-    <script>
-        var papel = <?php
-            echo json_encode($_SESSION['PAPEL'], JSON_HEX_TAG);
-        ?>;
-
-        $("#carrinho").show();
-
-        if (papel == "GUEST") {
-            $("#userbutton").attr("href", "../PUBLIC/login.php");
-
-            $("#userbutton").show();
-            $("#logout").hide();
-            $("#productCreator").hide();
-
-        } else if (papel == "USER") {
-            $("#userbutton").attr("href", "../CLIENT/minha_conta.php");
-            
-            $("#userbutton").show();
-            $("#logout").show();
-            $("#productCreator").hide();
-
-        } else if (papel == "ADM") {
-            $("#userbutton").attr("href", "../CLIENT/minha_conta.php");
-            $('#productCreator').attr('href', '../ADMIN/criar_produto.php');
-
-            $("#userbutton").show();
-            $("#logout").show();
-            $("#productCreator").show();
-        };
-
-      </script>
+    
 </body>
