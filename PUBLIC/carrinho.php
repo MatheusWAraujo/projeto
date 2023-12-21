@@ -66,7 +66,13 @@
 
             <div class="right-side">
                 <a class="titler" id="card-name"> Carrinho - <?php
-                    echo sizeof($_SESSION['CARRINHO']);
+                    $quantidade = 0;
+
+                    foreach ($_SESSION['CARRINHO'] as $id) {
+                        $quantidade += $id;
+                    };
+
+                    echo $quantidade;
                  ?> </a>
                 
                 <div class="itens-frame">
